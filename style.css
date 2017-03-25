@@ -1,0 +1,219 @@
+body {
+  font-family: "Open Sans", sans-serif;
+  color: white ;/* previously #38717B */
+  font-weight: 100;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+header{
+
+  margin-bottom: 30px;
+  box-shadow: 2.5px 2.5px 1.5px rgba(0, 0, 0, 0.5);
+
+}
+h1{
+  
+  padding: 20px;
+  font-weight: 100;
+
+}
+
+#top-content{
+  
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  
+}
+
+#currently{
+
+  float: left;
+  width: 30%;
+  border: 1px solid #D0EDF2;
+
+}
+
+#currently p{
+  
+  text-align: center;
+
+}
+
+#currently h3{
+
+  text-align: center;
+  border-bottom: 1px solid #D0EDF2;
+  font-weight: 100;
+
+}
+
+#currently h4{
+
+  font-size: 25px;
+  font-weight: 100;
+  padding: 5px;
+  margin: auto;
+
+}
+
+
+
+#hourly-wrapper{
+  
+  float: right;
+  width: 70%;
+
+}
+
+#hourly-report{
+
+  font-weight: 100;
+  padding-left: 25px;
+}
+
+#hourly-wrapper ul li{
+  display: inline-block;
+  margin-left: 1%;
+  margin-top: 2px;
+  padding: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 1px solid #D0EDF2;
+
+}
+
+#middle-content{
+  
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+}
+
+.news-headlines{
+
+/*  float: left;*/
+  width: 55%;
+  margin-right: 10%;
+  margin-left: 0%;
+
+}
+
+.daily-container{
+
+  width: 30%;
+
+}
+
+.news-list li{
+  
+  border-bottom: 1px solid #D0EDF2;
+
+}
+
+.day{
+
+  border: 1px solid #D0EDF2;
+  margin-bottom: 4px;
+
+}
+
+.day p{
+  
+  text-align: center;
+
+}
+
+.day h4{
+
+  border-bottom: 1px solid #D0EDF2;
+  margin-left: 4%;
+
+}
+
+h4{
+
+  font-size: 20px;
+  font-weight: 100;
+
+}
+
+.news-list ul{
+  display: flex;
+  flex-direction: row;
+  padding: 0px;
+}
+
+.news-list li{
+  padding: 10px;
+  display: block;
+  
+}
+
+.news-list a{
+  
+/*  display: inline-block;*/
+  text-decoration: none;
+  color: white;
+
+}
+
+.news-list a:hover{
+
+  color: #38717B;
+
+}
+
+@media screen and (max-width: 860px){
+
+  h4{
+
+    font-size: 15px;
+
+  }
+
+}
+
+/*************** MOBILE STYLES *******************/
+
+@media screen and (max-width: 860px){
+
+
+  #middle-content{
+
+    display: inline-block;
+  }
+
+  .news-headlines{
+
+    width: 100%;
+    margin-left: 5%;
+
+  }
+  .news-headlines{
+
+    width: inherit;
+
+  }
+
+  .daily-container{
+
+    margin-left: 5%;
+    width: 95%;
+
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+

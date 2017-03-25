@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Your News & Weather</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" >
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"
+            integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+            crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+<header>
+    <h1>Your News & Weather</h1>
+</header>
+    
+<div id="wrapper">
+  <section id="top-content">
+  
+  <div id="currently">
+    <h3>
+      Waiting for data ...
+    </h3>
+
+    <div id="currently-icon-temp">
+      
+      <i id="currently-icon"></i>
+      <h4 id="currently-temp">
+        -
+      </h4>
+    </div>
+    
+    <div id="currently-data">
+      
+      <p id="date">
+        -
+      </p>
+      <p id="summary">
+        -
+      </p>
+      <p id="currently-precipitation">
+        -
+      </p>
+      <p id="currently-humidity">
+        -
+      </p>
+      <p id="currently-wind">
+        -
+      </p>
+    </div>
+    
+<!--  End of Currently div-->
+  </div>
+  
+  <div id="hourly-wrapper">
+    <h4 id="hourly-report">
+      Hourly report:
+    </h4>
+
+    <!-- <ul id="hourly-list">
+      <li>
+        <i class="hourly-icon">Rainy</i>
+        <p class="temp">9&#8451;</p>
+        <p class="hourly-time">1pm</p>
+      </li>
+      
+      <li>
+        <i class="hourly-icon">Sunny</i>
+        <p class="temp">15&#8451;</p>
+        <p class="hourly-time">2pm</p>
+      </li>
+      
+      <li>
+        <i class="hourly-icon">Cloudy</i>
+        <p class="temp">4&#8451;</p>
+        <p class="hourly-time">3pm</p>
+      </li>
+      
+      <li>
+        <i class="hourly-icon">Snowy</i>
+        <p class="temp">-1&#8451;</p>
+        <p class="hourly-time">4pm</p>
+      </li>
+      
+    </ul> -->
+
+<!--  end of hourly forecast-->
+  </div>
+<!--    end of top-content-->
+  </section>
+  
+  <section id="middle-content">
+<!--News Headlines-->
+  
+    <div class="news-headlines">
+      <h3>News</h3>
+      
+      <ul class="news-list"></ul>
+    
+    </div>
+    
+<!--Weather Forecast-->
+    <div class="daily-container">
+    <h3>Daily Weather Report</h3>
+      <div class="daily-forecast">
+        
+        <!-- <div class="day">
+          <h4>
+            Tues
+          </h4>
+
+          <p class="daily-precipitation">Precipitation: 15%</p>
+          <p class="daily-high">High: 9&#8451;</p>
+          <p class="daily-low">Low: 5&#8451;</p>
+          <p class="daily-humidity">Humidity: 20%</p>
+          <p class="daily-wind">Wind: 5Km/h</p>
+        </div>
+        
+        <div class="day">
+          <h4>
+            Weds
+          </h4>
+
+          <p class="daily-precipitation">Precipitation: 15%</p>
+          <p class="daily-high">High: 9&#8451;</p>
+          <p class="daily-low">Low: 5&#8451;</p>
+          <p class="daily-humidity">Humidity: 20%</p>
+          <p class="daily-wind">Wind: 5Km/h</p>
+        </div>
+        
+        <div class="day">
+          <h4>
+            Thurs
+          </h4>
+
+          <p class="daily-precipitation">Precipitation: 15%</p>
+          <p class="daily-high">High: 9&#8451;</p>
+          <p class="daily-low">Low: 5&#8451;</p>
+          <p class="daily-humidity">Humidity: 20%</p>
+          <p class="daily-wind">Wind: 5Km/h</p>
+        </div> -->
+      
+      </div>
+    </div>
+<!--    end of middle-content section-->
+  </section>
+<!--  end of wrapper  -->
+</div> 
+    
+    <div id="error-message"></div>
+    <div id="search-results"></div>
+  </body>
+</html>
