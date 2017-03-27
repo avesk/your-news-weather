@@ -12,6 +12,22 @@ var WEATHER_ENDPOINT= "https://cors-anywhere.herokuapp.com/https://api.darksky.n
 
 $(document).ready(function() {
 
+/** For Settings Customization **/
+  $('#search').click(function() {
+    saveLocation()
+    console.log("button")
+  })
+  $( "#checkbox" ).change(function() {
+    saveToggle()
+  })
+  $( "#weather-days" ).change(function() {
+    saveDays()
+  })
+  $( "#news-source" ).change(function() {
+    saveNews()
+  })
+/** END OF Settings Customization **/
+
   var coords = undefined
   // disable the search button and add a message until we get some GPS coordinates
   $("#error-message").append('Waiting for GPS coordinates...')
@@ -50,9 +66,14 @@ $(document).ready(function() {
   This function retreives the search term that is entered in the input,
   and send an AJAX request to the YELP API
 */
+HEADLINES_SOURCE = 'ars-technica';
 function request(coordinates) {
 
-  HEADLINES_SOURCE = 'espn';
+  if( sessionStorage.getItem('news') != null ){
+    var rawNewsSrc = sessionStorage.getItem('news');
+    HEADLINES_SOURCE = JSON.parse(rawNewsSrc);
+  }
+  
   
   console.log(coordinates + "in requestHeadlines"); 
   var coordsRequest = coordinates.latitude + ',' + coordinates.longitude;
@@ -99,9 +120,11 @@ function newsRequestSuccess(data, textStatus, jqXHR){
     var headline = $("<h4 />");
     var anchor = $("<a />", { html: article.title }).attr({'href': article.url, 'target': '_blank'}); 
     var li = $("<li />").addClass('headline');
+    var source = $("<p />", { html: data.source }).addClass('news-source');
        
     headline.append(anchor);
     li.append(headline)
+    li.append(source);
     $('.news-list').append(li)
   
   })
@@ -231,13 +254,18 @@ function setHourly(data){
 }
 
 function setDaily(data){
-
+  var numDays = 4
+  if( sessionStorage.getItem('days') != null ){
+    var text;
+    var days = sessionStorage.getItem('days');
+    numDays = JSON.parse(days);
+  }
   console.log('In setDaily')
   console.log(data);
 
   var daily = data.daily;
 
-  for(var i = 0; i<4; i++){
+  for(var i = 0; i<numDays; i++){
 
     //Convert fahrenheitToCelcius for high
     var f1 = daily.data[i].temperatureMax;
@@ -352,6 +380,39 @@ function setMood(summary){
 
   $('body').css("background-image","url('images/sunny.jpg')");
 
+}
+
+/** Customize Settings Code ***/
+
+function saveLocation() {
+  console.log("save")
+  var textArea= $('input[name=location]')
+  console.log(textArea)
+  sessionStorage.location = JSON.stringify(textArea.val())
+
+}
+
+function saveToggle(){
+
+  console.log("toggle")
+  var rainAlerts= $('select[name=rain-selector]')
+  console.log(rainAlerts)
+  sessionStorage.rain = JSON.stringify(rainAlerts.val())
+}
+
+function saveDays(){
+  console.log("save days")
+  var displayDays= $('select[name=weather-display]')
+  console.log(displayDays)
+  sessionStorage.days = JSON.stringify(displayDays.val())
+}
+
+
+function saveNews(){
+  console.log("save news")
+  var newsSource= $('select[name=news-selector]')
+  console.log(newsSource)
+  sessionStorage.news = JSON.stringify(newsSource.val())
 }
 
 

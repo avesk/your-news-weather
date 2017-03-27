@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Made with Thimble</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body id="customize-body">
+  <script src="https://code.jquery.com/jquery-3.1.1.js"
+          integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+          crossorigin="anonymous"></script>
+  <script src="main.js"></script>
+
+  <h1 id="customize-h1">
+    Customize Settings
+  </h1>
+  <div id="news-source">
+    <h2>
+    News Source   
+    </h2>
+      <select id="news-source" name="news-selector">
+    <option value="cnn"> CNN </option>
+    <option value="espn"> ESPN </option>
+    <option value="engadget"> Engadget </option>
+    <option value="bbc-news"> BBC </option>
+    <option value="ars-technica"> Ars Technica </option>
+
+      </select>
+  </div>
+    
+  
+  <div id="toggle-rain">
+     <h2>
+    Toggle Rain Alert
+    </h2>
+      
+        <select id="checkbox" name="rain-selector">
+          <option value="on"> ON </option>
+          <option value="off"> OFF</option>
+        </select>
+      
+  
+  </div>
+  
+  <div id="location_search">
+  
+    <h2>
+    Location
+    </h2>
+      
+        <input type="text" name="location">
+        <button class="search_button" id="search">
+          Search
+        </button>
+      
+  </div>
+  <div id="days-display">
+    <h2>
+    Number of Days to Display
+    </h2>
+      <select id="weather-days" name="weather-display">
+        <option value="1"> 1 </option>
+        <option vlaue="2"> 2 </option>
+        <option vlaue="3"> 3 </option>
+        <option vlaue="4"> 4 </option>     
+        <option vlaue="5"> 5 </option>     
+        <option vlaue="6"> 6 </option>     
+        <option vlaue="7"> 7 </option>    
+      </select>
+  </div>
+
+  <a href="index.html"><button id="back-to-main-button">Back to Main Page</button></a>
+
+</body>
+</html>
