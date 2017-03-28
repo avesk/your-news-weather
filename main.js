@@ -8,24 +8,30 @@ var FULL_HEADLINES_ENDPOINT = "https://newsapi.org/v1/articles?&apiKey=ace36f451
 var HEADLINES_SOURCE = 'techcrunch';
 // var HEADLINES_ENDPOINT2 = "&apiKey=ace36f4519ae4e1d82a06fc18132814f";
 var WEATHER_ENDPOINT= "https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/4d8cd54cb82bf32a54f3ba902745f92e/";
-
+var NEWS = []
 
 $(document).ready(function() {
 
 /** For Settings Customization **/
+  if(JSON.parse(sessionStorage.getItem('rain')) === "on"){
+      $("#rain-cb").prop('checked', true);
+      $("#rain-cb").attr('checked','checked')
+      // alert("in here!");
+    }
+
+  setNewsFromStorage()
+  newsSourcesChange()
   $('#search').click(function() {
     saveLocation()
     console.log("button")
   })
-  $( "#rain-options" ).change(function() {
+  $( "#rain-cb" ).change(function() {
     saveToggle()
   })
   $( "#weather-days" ).change(function() {
     saveDays()
   })
-  $( "#news-source" ).change(function() {
-    saveNews()
-  })
+
 /** END OF Settings Customization **/
 
   var coords = undefined
@@ -74,7 +80,6 @@ function request(coordinates) {
     HEADLINES_SOURCE = JSON.parse(rawNewsSrc);
   }
   
-  
   console.log(coordinates + "in requestHeadlines"); 
   var coordsRequest = coordinates.latitude + ',' + coordinates.longitude;
   
@@ -104,7 +109,21 @@ function request(coordinates) {
 //  console.log(requestSettings);
   
   //$.ajax(HEADLINES_ENDPOINT1 + HEADLINES_SOURCE + HEADLINES_ENDPOINT2, newsRequestSettings);
-  $.ajax(FULL_HEADLINES_ENDPOINT, newsRequestSettings);
+
+  if(NEWS.length >0){
+
+    for(var i = 0; i<NEWS.length; i++){
+
+      newsRequestSettings.data.source = NEWS[i];
+      $.ajax(FULL_HEADLINES_ENDPOINT, newsRequestSettings);
+
+    }
+  }
+
+  else{
+    $.ajax(FULL_HEADLINES_ENDPOINT, newsRequestSettings);
+  }
+  
   $.ajax(WEATHER_ENDPOINT + coordsRequest, weatherRequestSettings);
   
 }
@@ -200,6 +219,7 @@ function setCurrently(data){
 
   //Set current wind speed:
   var windSpeed = currently.windSpeed;
+  windSpeed = Math.round( windSpeed*=1.6 );
   $('#currently-wind').text('Wind: ' + windSpeed + ' Km/h');
 
   //set Icon
@@ -256,7 +276,7 @@ function setHourly(data){
 }
 
 function setDaily(data){
-  var numDays = 4
+  var numDays = 4;
   if( sessionStorage.getItem('days') != null ){
     var text;
     var days = sessionStorage.getItem('days');
@@ -294,7 +314,7 @@ function setDaily(data){
     var high = $('<p />', {html: 'High: ' + h}).addClass('daily-high');
     var low = $('<p />', {html: 'Low: ' + l}).addClass('daily-low');
     var humidity = $('<p />', {html:'Humidity: ' + hum}).addClass('daily-humidity');
-    var wind = $('<p />', {html:'Wind: ' + daily.data[i].windSpeed + ' Km/h'}).addClass('daily-wind');
+    var wind = $('<p />', {html:'Wind: ' + Math.round( (daily.data[i].windSpeed*=1.6) ) + ' Km/h'}).addClass('daily-wind');
 
     day.append(dayOfWeek);
     day.append(precip);
@@ -413,9 +433,13 @@ function saveLocation() {
 function saveToggle(){
 
   console.log("toggle")
-  var rainAlerts= $('select[name=rain-selector]')
-  console.log(rainAlerts)
-  sessionStorage.rain = JSON.stringify(rainAlerts.val())
+  if( $("#rain-cb").prop("checked") ){
+    sessionStorage.rain = JSON.stringify('on');
+  }
+  else{
+    sessionStorage.rain = JSON.stringify('off');
+  }
+
 }
 
 function saveDays(){
@@ -426,15 +450,58 @@ function saveDays(){
 }
 
 
-function saveNews(){
+function saveNews(id){
   console.log("save news")
-  var newsSource= $('select[name=news-selector]')
-  console.log(newsSource)
-  sessionStorage.news = JSON.stringify(newsSource.val())
+  if( $('#' + id).prop("checked") ){
+    NEWS.push(id)
+    sessionStorage.news = JSON.stringify(NEWS);
+  }
+  else{
+    //remove unchecked element
+    for (var i=NEWS.length-1; i>=0; i--) {
+      if (NEWS[i] === id) {
+          NEWS.splice(i, 1);
+      }
+    }
+
+    sessionStorage.news = JSON.stringify(NEWS);
+  }
 }
 
 
+function newsSourcesChange(){
 
+  $( '#espn' ).change(function() {
+    saveNews('espn')
+  })
+
+  $( '#engadget' ).change(function() {
+    saveNews('engadget')
+  })
+
+  $( '#bbc-news' ).change(function() {
+    saveNews('bbc-news')
+  })
+
+  $( '#ars-technica' ).change(function() {
+    saveNews('ars-technica')
+  })
+
+  $( '#cnn' ).change(function() {
+    saveNews('cnn')
+  })
+
+}
+
+function setNewsFromStorage(){
+  NEWS = JSON.parse( sessionStorage.getItem('news') )
+  for(var i = 0; i<NEWS.length; i++){
+    $("#" + NEWS[i]).prop('checked', true);
+    $("#" + NEWS[i]).attr('checked','checked')
+
+  }
+
+}
 
 
 

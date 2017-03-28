@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Made with Thimble</title>
+  <title>Options</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body id="customize-body">
@@ -13,20 +13,25 @@
   <script src="main.js"></script>
 
   <h1 id="customize-h1">
-    Customize Settings
+    Options
   </h1>
   <div id="news-source">
     <h2>
-    News Source   
+    News Sources   
     </h2>
-      <select id="news-source" name="news-selector">
+    <input type="checkbox" id="cnn">CNN
+    <input type="checkbox" id="espn">ESPN
+    <input type="checkbox" id="engadget">Engadget
+    <input type="checkbox" id="bbc-news">BBC
+    <input type="checkbox" id="ars-technica">Ars Technica
+      <!-- <select id="news-source" name="news-selector">
     <option value="cnn"> CNN </option>
     <option value="espn"> ESPN </option>
     <option value="engadget"> Engadget </option>
     <option value="bbc-news"> BBC </option>
     <option value="ars-technica"> Ars Technica </option>
 
-      </select>
+      </select> -->
   </div>
     
   
@@ -34,16 +39,16 @@
      <h2>
     Toggle Rain Alert
     </h2>
-      
-        <select id="rain-options" name="rain-selector">
+      <input type="checkbox" id="rain-cb">
+       <!--  <select id="rain-options" name="rain-selector">
           <option value="on">ON</option>
           <option value="off">OFF</option>
-        </select>
+        </select> -->
       
   
   </div>
   
-  <div id="location_search">
+  <!-- <div id="location_search">
   
     <h2>
     Location
@@ -51,10 +56,10 @@
       
         <input type="text" name="location">
         <button class="search_button" id="search">
-          Search
+          Set
         </button>
       
-  </div>
+  </div> -->
   <div id="days-display">
     <h2>
     Number of Days to Display
