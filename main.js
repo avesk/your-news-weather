@@ -3,10 +3,10 @@
 /* 
   The "https://cors-anywhere.herokuapp.com/" app allows to circumvent the same-origin policy. It's ok to do this in a lab, but in a real application you shouldn't send requests to 3rd parties from the client-side, or have your access token here, as it makes your access token public
 */
-
-var HEADLINES_ENDPOINT1 = "https://newsapi.org/v1/articles?source=";
+var FULL_HEADLINES_ENDPOINT = "https://newsapi.org/v1/articles?&apiKey=ace36f4519ae4e1d82a06fc18132814f";
+// var HEADLINES_ENDPOINT1 = "https://newsapi.org/v1/articles?source=";
 var HEADLINES_SOURCE = 'techcrunch';
-var HEADLINES_ENDPOINT2 = "&apiKey=ace36f4519ae4e1d82a06fc18132814f";
+// var HEADLINES_ENDPOINT2 = "&apiKey=ace36f4519ae4e1d82a06fc18132814f";
 var WEATHER_ENDPOINT= "https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/4d8cd54cb82bf32a54f3ba902745f92e/";
 
 
@@ -17,7 +17,7 @@ $(document).ready(function() {
     saveLocation()
     console.log("button")
   })
-  $( "#checkbox" ).change(function() {
+  $( "#rain-options" ).change(function() {
     saveToggle()
   })
   $( "#weather-days" ).change(function() {
@@ -64,9 +64,9 @@ $(document).ready(function() {
 
 /*
   This function retreives the search term that is entered in the input,
-  and send an AJAX request to the YELP API
+  and send an AJAX request
 */
-HEADLINES_SOURCE = 'ars-technica';
+// HEADLINES_SOURCE = 'ars-technica';
 function request(coordinates) {
 
   if( sessionStorage.getItem('news') != null ){
@@ -81,7 +81,7 @@ function request(coordinates) {
   var newsRequestSettings = {
     
     data : {
-      source : 'abc-news-au'
+      source : HEADLINES_SOURCE
     },
 
     success : newsRequestSuccess,
@@ -103,7 +103,8 @@ function request(coordinates) {
   
 //  console.log(requestSettings);
   
-  $.ajax(HEADLINES_ENDPOINT1 + HEADLINES_SOURCE + HEADLINES_ENDPOINT2, newsRequestSettings);
+  //$.ajax(HEADLINES_ENDPOINT1 + HEADLINES_SOURCE + HEADLINES_ENDPOINT2, newsRequestSettings);
+  $.ajax(FULL_HEADLINES_ENDPOINT, newsRequestSettings);
   $.ajax(WEATHER_ENDPOINT + coordsRequest, weatherRequestSettings);
   
 }
@@ -181,8 +182,9 @@ function setCurrently(data){
   $('#summary').text(summary);
   //sets the mood of the background 
   setMood(summary);
-  if(summary === 'rain'){
-    $('header').append($('<p />', {html: 'Rain Alert'}));
+  var toggle = JSON.parse(sessionStorage.getItem('rain'))
+  if(summary === 'rain' && toggle === "on"){
+    alert("Ayyyyee! There be Rain in the forecast!!");
   }
 
   //Set current precipitation probability
@@ -377,8 +379,24 @@ function unixToHour(t){
 }
 
 function setMood(summary){
+  var reCloudy = new RegExp('(c|C)loud');
+  var reSunny = new RegExp('(s|S)un');
+  var reRain = new RegExp('(r|R)ain');
 
-  $('body').css("background-image","url('images/sunny.jpg')");
+  if(reCloudy.test(summary)){
+    $('#main-body').css("background-image","url('images/cloudy.jpg')");
+    // alert("In the test!!")
+  }
+
+  if(reSunny.test(summary)){
+    $('#main-body').css("background-image","url('images/sunny.jpg')");
+  }
+
+  if(reRain.test(summary)){
+    $('#main-body').css("background-image","url('images/rain.jpg')");
+
+  }
+  // $('#main-body').css("background-image","url('images/sunny.jpg')");
 
 }
 

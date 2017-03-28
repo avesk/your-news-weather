@@ -4,7 +4,7 @@ body {
   font-weight: 100;
   background-size: cover;
   background-repeat: no-repeat;
-  background-image: url('images/sunny.jpg');
+  /*background-image: url('images/sunny.jpg');*/
 }
 
 header{
@@ -179,7 +179,8 @@ h4{
   font-family: "Open Sans", sans-serif;
   color: #38717B;
   font-weight: 100;
-  background-size: cover;
+  background-image: none;
+  /*background-size: cover;*/
 }
 
 #customize-body select {
@@ -237,6 +238,26 @@ h4{
 
 @media screen and (max-width: 860px){
 
+  #top-content{
+  
+  margin-bottom: 10px;
+  display: block;
+  
+  } 
+
+  #hourly-wrapper{
+
+    float: none;
+    width: 100%;
+    
+  }
+
+  #currently{
+    margin-right: left%;
+    width: 100%;
+    float: none;
+
+  }
 
   #middle-content{
 
