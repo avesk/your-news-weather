@@ -110,19 +110,30 @@ function request(coordinates) {
   
   //$.ajax(HEADLINES_ENDPOINT1 + HEADLINES_SOURCE + HEADLINES_ENDPOINT2, newsRequestSettings);
 
-  if(NEWS.length >0){
+  if(NEWS != null){
 
-    for(var i = 0; i<NEWS.length; i++){
+    if(NEWS.length >0){
 
-      newsRequestSettings.data.source = NEWS[i];
+      for(var i = 0; i<NEWS.length; i++){
+
+        newsRequestSettings.data.source = NEWS[i];
+        $.ajax(FULL_HEADLINES_ENDPOINT, newsRequestSettings);
+
+      }
+
+    }
+
+    else{
+      newsRequestSettings.data.source = 'ars-technica';
       $.ajax(FULL_HEADLINES_ENDPOINT, newsRequestSettings);
-
     }
   }
 
   else{
-    $.ajax(FULL_HEADLINES_ENDPOINT, newsRequestSettings);
-  }
+      newsRequestSettings.data.source = 'ars-technica';
+      $.ajax(FULL_HEADLINES_ENDPOINT, newsRequestSettings);
+    }
+  
   
   $.ajax(WEATHER_ENDPOINT + coordsRequest, weatherRequestSettings);
   
@@ -401,7 +412,7 @@ function unixToHour(t){
 function setMood(summary){
   var reCloudy = new RegExp('(c|C)loud');
   var reSunny = new RegExp('(s|S)un');
-  var reRain = new RegExp('(r|R)ain');
+  var reRain = new RegExp('((r|R)ain)|(Drizzle)');
 
   if(reCloudy.test(summary)){
     $('#main-body').css("background-image","url('images/cloudy.jpg')");
@@ -453,7 +464,13 @@ function saveDays(){
 function saveNews(id){
   console.log("save news")
   if( $('#' + id).prop("checked") ){
-    NEWS.push(id)
+    if(NEWS === null){
+      NEWS = [id];
+    }
+    else{
+      NEWS.push(id);
+    }
+    
     sessionStorage.news = JSON.stringify(NEWS);
   }
   else{
@@ -495,12 +512,15 @@ function newsSourcesChange(){
 
 function setNewsFromStorage(){
   NEWS = JSON.parse( sessionStorage.getItem('news') )
-  for(var i = 0; i<NEWS.length; i++){
+  if(NEWS != null){
+
+    for(var i = 0; i<NEWS.length; i++){
     $("#" + NEWS[i]).prop('checked', true);
     $("#" + NEWS[i]).attr('checked','checked')
 
-  }
+    }
 
+  }
 }
 
 
