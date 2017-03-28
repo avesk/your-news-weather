@@ -236,6 +236,8 @@ function setCurrently(data){
   //set Icon
   var iconText = currently.icon;
   $('#currently-icon').text(iconText);
+  $('#currently-icon').append('<img width=25px height= 25px src="images/' + iconText + '.png" />');
+
 
   //Set temperature:
   var f = currently.temperature;
@@ -424,7 +426,7 @@ function setMood(summary){
   }
 
   if(reRain.test(summary)){
-    $('#main-body').css("background-image","url('images/rain.jpg')");
+    $('#main-body').css("background-image","url('images/rainy.jpg')");
 
   }
   // $('#main-body').css("background-image","url('images/sunny.jpg')");
