@@ -1,4 +1,4 @@
-//Code snippits taken from lab8
+
 
 /* 
   The "https://cors-anywhere.herokuapp.com/" app allows to circumvent the same-origin policy. It's ok to do this in a lab, but in a real application you shouldn't send requests to 3rd parties from the client-side, or have your access token here, as it makes your access token public
@@ -35,7 +35,11 @@ $(document).ready(function() {
 /** END OF Settings Customization **/
 
   var coords = undefined
-  // disable the search button and add a message until we get some GPS coordinates
+  var firstRequest = true;
+
+/** Code snippits taken from lab8 **/
+
+  // apppend this message while we wait for coords
   $("#error-message").append('Waiting for GPS coordinates...')
 
   // check if the browser supports geolocation
@@ -43,15 +47,24 @@ $(document).ready(function() {
 
     // if it does, watch for the changes in the GPS information
     navigator.geolocation.watchPosition(function(position) {
-      // put the coordinates in the coords variable (defined line 10)
+      // put the coordinates in the coords variable
+
+/** END Code snippits taken from lab8 **/
+
       console.log(coords + "in conditional");
       source = 'abc-news-au';
       coords = position.coords
       $("#error-message").empty();
       
       $('.news-list').empty();
-      request(coords);
+      
+      //if it is the first request, make the request when the coordinates load
+      if(firstRequest){
+        request(coords);
+        firstRequest = false;
+      }
 
+      //make a request every 60 seconds
       setInterval(
         function(){
         $('.news-list').empty();
@@ -68,11 +81,7 @@ $(document).ready(function() {
   
 })
 
-/*
-  This function retreives the search term that is entered in the input,
-  and send an AJAX request
-*/
-// HEADLINES_SOURCE = 'ars-technica';
+//pulls the data from the news and weather API, and makes an ajax request
 function request(coordinates) {
 
   if( sessionStorage.getItem('news') != null ){
@@ -152,9 +161,11 @@ function newsRequestSuccess(data, textStatus, jqXHR){
     var anchor = $("<a />", { html: article.title }).attr({'href': article.url, 'target': '_blank'}); 
     var li = $("<li />").addClass('headline');
     var source = $("<p />", { html: data.source }).addClass('news-source');
+    var image= $('<img/>', {'class':"newsImage", src:article.urlToImage});
        
     headline.append(anchor);
-    li.append(headline)
+    li.append(headline);
+    li.append(image);
     li.append(source);
     $('.news-list').append(li)
   
@@ -174,6 +185,7 @@ function WeatherRequestSuccess(data, textStatus, jqXHR){
 
   $('.hourly-list').empty();
   $('.daily-forecast').empty();
+  $('#currently-icon').empty();
   
   setCurrently(data);
   setHourly(data);
@@ -185,6 +197,7 @@ function setCurrently(data){
   console.log("In setCurrently function");
   console.log(data);
   
+
   var coordsRequest = data.latitude + ',' + data.longitude;
   
   setCity( //Sets the City and Province
@@ -235,8 +248,8 @@ function setCurrently(data){
 
   //set Icon
   var iconText = currently.icon;
-  $('#currently-icon').text(iconText);
-  $('#currently-icon').append('<img width=25px height= 25px src="images/' + iconText + '.png" />');
+  $('#currently-icon').append($('<p />', {html:iconText}));
+  $('#currently-icon').append($('<img width=25px height= 25px src="images/' + iconText + '.png" />'));
 
 
   //Set temperature:

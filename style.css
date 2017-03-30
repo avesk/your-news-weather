@@ -1,5 +1,5 @@
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;  
   color: white ;/* previously #38717B */
   font-weight: 100;
   background-size: cover;
@@ -17,6 +17,14 @@ h1{
   
   padding: 20px;
   font-weight: 100;
+  font-size: 50px;
+
+}
+
+h3{
+
+  font-weight: inherit;
+  font-size: 40px;
 
 }
 
@@ -95,6 +103,14 @@ button:active{
 
 }
 
+#currently-icon img{
+
+  width: 100px;
+  height: auto;
+
+}
+
+
 #currently h3{
 
   text-align: center;
@@ -165,6 +181,13 @@ button:active{
   
   border-bottom: 1px solid #D0EDF2;
 
+}
+
+.newsImage{
+
+  max-width: 150px;
+  height: auto;
+  border-radius: 5px;
 }
 
 .news-source{
