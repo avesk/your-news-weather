@@ -519,8 +519,14 @@ function newsSourcesChange(){
     saveNews('ars-technica')
   })
 
-  $( '#cnn' ).change(function() {
-    saveNews('cnn')
+  $( '#national-geographic' ).change(function() {
+    saveNews('national-geographic')
+  })
+  $( '#business-insider' ).change(function() {
+    saveNews('business-insider')
+  })
+  $( '#google-news' ).change(function() {
+    saveNews('google-news')
   })
 
 }
