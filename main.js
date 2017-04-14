@@ -21,10 +21,7 @@ $(document).ready(function() {
 
   setNewsFromStorage()
   newsSourcesChange()
-  $('#search').click(function() {
-    saveLocation()
-    console.log("button")
-  })
+
   $( "#rain-cb" ).change(function() {
     saveToggle()
   })
@@ -37,7 +34,7 @@ $(document).ready(function() {
   var coords = undefined
   var firstRequest = true;
 
-/** Code snippits taken from lab8 **/
+/** Code snippits taken from lab8 https://thimbleprojects.org/mfoucault/225191 **/
 
   // apppend this message while we wait for coords
   $("#error-message").append('Waiting for GPS coordinates...')
@@ -66,16 +63,17 @@ $(document).ready(function() {
 
       //make a request every 60 seconds
       setInterval(
+
         function(){
+
         $('.news-list').empty();
         request(coords);
 
         },
        60000
+
       );
       
-      
-      //setInterval()
     })
   }
   
@@ -85,8 +83,10 @@ $(document).ready(function() {
 function request(coordinates) {
 
   if( sessionStorage.getItem('news') != null ){
+
     var rawNewsSrc = sessionStorage.getItem('news');
     HEADLINES_SOURCE = JSON.parse(rawNewsSrc);
+
   }
   
   console.log(coordinates + "in requestHeadlines"); 
@@ -133,14 +133,19 @@ function request(coordinates) {
     }
 
     else{
+
       newsRequestSettings.data.source = 'ars-technica';
       $.ajax(FULL_HEADLINES_ENDPOINT, newsRequestSettings);
+
     }
+
   }
 
   else{
+
       newsRequestSettings.data.source = 'ars-technica';
       $.ajax(FULL_HEADLINES_ENDPOINT, newsRequestSettings);
+
     }
   
   
@@ -148,13 +153,16 @@ function request(coordinates) {
   
 }
 
+//Handles News API data, and outputs it nicely on our html page
 function newsRequestSuccess(data, textStatus, jqXHR){
+
   console.log("IN SUCCESS");
   console.log(data);
   
   var headline_div = $('div').addClass("headline");
   var headline_link = $('a');
   
+  //Fetch artices from News API
   data.articles.forEach(function(article){
 
     var headline = $("<h4 />");
@@ -173,13 +181,17 @@ function newsRequestSuccess(data, textStatus, jqXHR){
 
 }
 
+// Called if AJAX returns in error
 function requestError(jqXHR, error, errorThrown){
+
   console.log("IN ERROR");
   $("#error-message").append('<p>' + error + '</p>');
 
 }
 
+//Handles Weather API data and outputs it nicely on our html page
 function WeatherRequestSuccess(data, textStatus, jqXHR){
+
   console.log("IN SUCCESS");
   console.log(data);
 
@@ -193,7 +205,9 @@ function WeatherRequestSuccess(data, textStatus, jqXHR){
   
 }
 
+//Helper funtion to format the Current weather on our page
 function setCurrently(data){
+
   console.log("In setCurrently function");
   console.log(data);
   
@@ -232,7 +246,7 @@ function setCurrently(data){
 
   //Set current precipitation probability
   var precipProb = currently.precipProbability;
-  console.log(precipProb)
+  console.log(precipProb);
   precipProb = precipProb*100;
   $('#currently-precipitation').text('Precipitation: ' + precipProb + '%');
 
@@ -257,11 +271,14 @@ function setCurrently(data){
   console.log(f);
   var c = (5/9) * (f-32);
   console.log(c);
-  var tempurature = Math.round(c)
-  $('#currently-temp').text(tempurature + '\u2103')
+  var tempurature = Math.round(c);
+  $('#currently-temp').text(tempurature + '\u2103');
+
 }
 
+//Helper funtion to format the Hourly weather on our page
 function setHourly(data){
+
   console.log('In setHourly');
   console.log(data);
 
@@ -283,7 +300,7 @@ function setHourly(data){
     var t = fahrenheitToCelcius(f) + '\u2103';
 
     //convert unix to hour:
-    var hr = unixToHour(hourly.data[i].time)
+    var hr = unixToHour(hourly.data[i].time);
 
     icon = $("<i />", { html: hourly.data[i].icon }).addClass('hourly-icon');
     tempurature = $("<p />", { html: t}).addClass('temp');
@@ -302,13 +319,19 @@ function setHourly(data){
 }
 
 function setDaily(data){
+
   var numDays = 4;
+
+  //Get the number of days to display in the daily weather report fromt he session storage
   if( sessionStorage.getItem('days') != null ){
+
     var text;
     var days = sessionStorage.getItem('days');
     numDays = JSON.parse(days);
+
   }
-  console.log('In setDaily')
+
+  console.log('In setDaily');
   console.log(data);
 
   var daily = data.daily;
@@ -355,26 +378,28 @@ function setDaily(data){
 
 }
 
+//Set the user's location for the weather
 function setCity(coords, handle){
+
   requestSettings = {
+
     success: function(data){
+
       console.log(data.results[0].formatted_address);
-      // var firstAdressComp = data.results[0].address_components[0].long_name;
-      // var secondAdressComp = data.results[0].address_components[1].long_name;
-      // var thirdAdressComp = data.results[0].address_components[2].long_name;
       handle(data.results[0].formatted_address);
 
     },
     
     error: function(){
+
       console.log('error getting google maps info');
-  }
+
+    }
   
   }
   
   
-  $.ajax('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + coords +'&sensor=true', requestSettings
-    );
+  $.ajax('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + coords +'&sensor=true', requestSettings);
 
 }
 
@@ -387,6 +412,7 @@ function fahrenheitToCelcius(f){
 
 }
 
+//Helper function to convert unix time to the current day of the week
 function unixToDayOfWeek(t){
 
   var days = ['Sun','Mon','Tues','Wed','Thurs','Fri','Sat'];
@@ -398,6 +424,7 @@ function unixToDayOfWeek(t){
 
 }
 
+//Helper function to convert unix time to the current hour of the day in Am and Pm
 function unixToHour(t){
 
   var date = new Date();
@@ -405,18 +432,25 @@ function unixToHour(t){
   var hour = date.getHours();
 
   if(hour >= 12){
+
     if(hour !== 12)
       hour -=12;
 
     hour = hour + ' pm';
+
   } 
 
   else{
+
     if(hour === 0){
+
       hour = 12 + ' am';
       return hour;
+
     }
+
     hour = hour + ' am';
+
   }
     
 
@@ -424,7 +458,10 @@ function unixToHour(t){
 
 }
 
+//Wrangles the summary data from the weather API with regex, and sets the background image
+//appropriately
 function setMood(summary){
+
   var reCloudy = new RegExp('(c|C)loud');
   var reSunny = new RegExp('(s|S)un');
   var reRain = new RegExp('((r|R)ain)|(Drizzle)');
@@ -442,91 +479,111 @@ function setMood(summary){
     $('#main-body').css("background-image","url('images/rainy.jpg')");
 
   }
-  // $('#main-body').css("background-image","url('images/sunny.jpg')");
 
 }
 
 /** Customize Settings Code ***/
 
-function saveLocation() {
-  console.log("save")
-  var textArea= $('input[name=location]')
-  console.log(textArea)
-  sessionStorage.location = JSON.stringify(textArea.val())
-
-}
-
+//Saves the status of the toggle rain alert
 function saveToggle(){
 
-  console.log("toggle")
+  console.log("toggle");
+
   if( $("#rain-cb").prop("checked") ){
+
     sessionStorage.rain = JSON.stringify('on');
+
   }
+
   else{
+
     sessionStorage.rain = JSON.stringify('off');
+
   }
 
 }
 
+//Saves the number of days the user selects in the options page
 function saveDays(){
-  console.log("save days")
-  var displayDays= $('select[name=weather-display]')
-  console.log(displayDays)
-  sessionStorage.days = JSON.stringify(displayDays.val())
+
+  console.log("save days");
+  var displayDays= $('select[name=weather-display]');
+  console.log(displayDays);
+  sessionStorage.days = JSON.stringify(displayDays.val());
+
 }
 
-
+//Used to save the news source selection in the session storage
 function saveNews(id){
-  console.log("save news")
+
+  console.log("save news");
+
   if( $('#' + id).prop("checked") ){
+
     if(NEWS === null){
+
       NEWS = [id];
+
     }
+
     else{
+
       NEWS.push(id);
+
     }
     
     sessionStorage.news = JSON.stringify(NEWS);
+
   }
+
   else{
+
     //remove unchecked element
     for (var i=NEWS.length-1; i>=0; i--) {
+
       if (NEWS[i] === id) {
+
           NEWS.splice(i, 1);
+
       }
+
     }
 
     sessionStorage.news = JSON.stringify(NEWS);
+
   }
+
 }
 
-
+//Used to change the news source
 function newsSourcesChange(){
 
-  $( '#espn' ).change(function() {
-    saveNews('espn')
+  $('#espn').change(function() {
+    saveNews('espn');
   })
 
-  $( '#engadget' ).change(function() {
-    saveNews('engadget')
+  $('#engadget').change(function() {
+    saveNews('engadget');
   })
 
-  $( '#bbc-news' ).change(function() {
-    saveNews('bbc-news')
+  $('#bbc-news').change(function() {
+    saveNews('bbc-news');
   })
 
-  $( '#ars-technica' ).change(function() {
-    saveNews('ars-technica')
+  $('#ars-technica').change(function() {
+    saveNews('ars-technica');
   })
 
-  $( '#national-geographic' ).change(function() {
-    saveNews('national-geographic')
+  $('#national-geographic').change(function() {
+    saveNews('national-geographic');
   })
-  $( '#business-insider' ).change(function() {
-    saveNews('business-insider')
+
+  $('#business-insider').change(function() {
+    saveNews('business-insider');
   })
-  $( '#google-news' ).change(function() {
-    saveNews('google-news')
+
+  $('#google-news').change(function() {
+    saveNews('google-news');
   })
 
 }
@@ -536,12 +593,14 @@ function setNewsFromStorage(){
   if(NEWS != null){
 
     for(var i = 0; i<NEWS.length; i++){
-    $("#" + NEWS[i]).prop('checked', true);
-    $("#" + NEWS[i]).attr('checked','checked')
+
+      $("#" + NEWS[i]).prop('checked', true);
+      $("#" + NEWS[i]).attr('checked','checked');
 
     }
 
   }
+
 }
 
 
